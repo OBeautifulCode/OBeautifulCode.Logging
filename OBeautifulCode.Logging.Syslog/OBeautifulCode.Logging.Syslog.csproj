@@ -42,7 +42,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include=".recipes\Naos.Diagnostics\MachineName.cs" />
+    <Compile Include=".recipes\Naos.Diagnostics\MachineNameKind.cs" />
+    <Compile Include=".recipes\Naos.Diagnostics\ProcessHelpers.cs" />
+    <Compile Include="Facility.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="SyslogMessageBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Severity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include=".analyzers\stylecop.json" />
