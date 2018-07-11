@@ -1,0 +1,7 @@
+﻿<package>
+  <metadata>
+    <description>Builds syslog messages.</description>
+    <tags>syslog</tags>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Syslog/nuget-icon.png</iconUrl>
+  </metadata>
+</package>
