@@ -9,6 +9,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
 
@@ -21,7 +22,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
     public static class SyslogMessageBuilderTest
     {
         [Fact]
-        public static void Build_ProplerlyEncodesPriorityFromFacilityAndSeverityInHeader()
+        public static void Build_ProperlyEncodesPriorityFromFacilityAndSeverityInHeader()
         {
             // Arrange
             byte[] expected1 = Encoding.ASCII.GetBytes("<0>");
@@ -76,7 +77,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_ProplerlyEncodesVersionAndTimestampInHeader()
+        public static void Build_ProperlyEncodesVersionAndTimestampInHeader()
         {
             // Arrange
             var timeStamp1 = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
@@ -95,7 +96,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_ProplerlyEncodesHostNameAppNameAndProcessIdInHeader()
+        public static void Build_ProperlyEncodesHostNameAppNameAndProcessIdInHeader()
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
@@ -269,7 +270,8 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_StructuredDataParams_IsNull_NotIncludedInStrucuredData()
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Params", Justification = "This is spelled correctly.")]
+        public static void Build_StructuredDataParams_IsNull_NotIncludedInStructuredData()
         {
             // Arrange
             const string StructuredDataId = "ThisIsMy@Identifier";
@@ -286,7 +288,8 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_StructuredDataParamsNamesAreAllNullOrEmptyOrContainAllInvalidCharacters_NoParamsIncludedInStrucuredData()
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Params", Justification = "This is spelled correctly.")]
+        public static void Build_StructuredDataParamsNamesAreAllNullOrEmptyOrContainAllInvalidCharacters_NoParamsIncludedInStructuredData()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -312,6 +315,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
         public static void Build_StructuredDataParamNameContainsInvalidCharacters_InvalidCharactersAreRemoved()
         {
             // Arrange
@@ -335,6 +339,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
         public static void Build_StructuredDataParamNameContainsMoreThan32ValidCharacters_ParamNameTruncatedTo32Characters()
         {
             // Arrange
@@ -358,6 +363,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
         public static void Build_StructuredDataParamValueIsNull_ParamValueIsSetToEmptyString()
         {
             // Arrange
@@ -381,6 +387,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
         public static void Build_StructuredDataParamValueContainsCharactersThatMustBeEscaped_CharactersAreEscaped()
         {
             // Arrange
@@ -404,6 +411,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Params", Justification = "This is spelled correctly.")]
         public static void Build_MultipleValidStructuredDataParams_AllParamsAreEncoded()
         {
             // Arrange
@@ -429,12 +437,13 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact(Skip = "Being lazy here - need to test this.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
         public static void Build_EncodesStructuredDataParamValuesInUtf8()
         {
         }
 
         [Fact]
-        public static void Build_MessageIsNull_LastElementInEncodedMessageIsStructuredDataTerminatedWithNewline()
+        public static void Build_MessageIsNull_LastElementInEncodedMessageIsStructuredDataTerminatedWithNewLine()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -463,7 +472,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_MessageIsNotNullAndUtf8EncodingIsFalse_MessageIsEncodedInAsciiAndAddedToTailWithNewlineTerminator()
+        public static void Build_MessageIsNotNullAndUtf8EncodingIsFalse_MessageIsEncodedInAsciiAndAddedToTailWithNewLineTerminator()
         {
             // Arrange
             const bool EnecodeMessageInUtf8 = false;
@@ -487,7 +496,8 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_MessageIsNotNullAndUtf8EncodingIsTrue_MessageIsEncodedWithBomFollowedByUtf8StringAndAddedToTailWithNewlineTerminator()
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Bom", Justification = "This is spelled correctly.")]
+        public static void Build_MessageIsNotNullAndUtf8EncodingIsTrue_MessageIsEncodedWithBomFollowedByUtf8StringAndAddedToTailWithNewLineTerminator()
         {
             // Arrange
             const bool EnecodeMessageInUtf8 = true;
