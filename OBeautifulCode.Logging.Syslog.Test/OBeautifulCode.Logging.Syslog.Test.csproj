@@ -74,8 +74,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include=".recipes\Naos.Diagnostics\MachineName.cs" />
+    <Compile Include=".recipes\Naos.Diagnostics\MachineNameKind.cs" />
     <Compile Include=".recipes\OBeautifulCode.AutoFakeItEasy\AutoFakeItEasyBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyslogMessageBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OBeautifulCode.Logging.Syslog\OBeautifulCode.Logging.Syslog.csproj">
