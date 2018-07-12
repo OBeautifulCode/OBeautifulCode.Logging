@@ -4,10 +4,6 @@
     <description>Builds syslog messages.</description>
     <tags>syslog</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Syslog/nuget-icon.png</iconUrl>
-    <dependencies>
-      <dependency id="Naos.Diagnostics.Recipes.MachineName" version="1.2.13" />
-      <dependency id="Naos.Diagnostics.Recipes.Process" version="1.2.13" />
-    </dependencies>
   </metadata>
   <files>
     <file src="Facility.cs" target="content\net462\.recipes\OBeautifulCode.Logging\Facility.cs" />

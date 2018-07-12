@@ -11,12 +11,11 @@ namespace OBeautifulCode.Logging.Recipes
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Text;
 
-    using Naos.Diagnostics.Recipes;
+    using static System.FormattableString;
 
     /// <summary>
     /// This class provides a method to build a syslog message.
@@ -48,34 +47,24 @@ namespace OBeautifulCode.Logging.Recipes
         private static readonly CultureInfo UnitedStatesEnglishCultureInfo = new CultureInfo("en-US");
 
         /// <summary>
-        /// The fully qualified domain name of the local computer, formatted to comply with RFC5234.
-        /// </summary>
-        private static readonly string Fqdn = FormatSyslogAsciiField(MachineName.GetFullyQualifiedDomainName(), 255, false);
-
-        /// <summary>
-        /// The name of the current process, formatted to comply with RFC5234.
-        /// </summary>
-        private static readonly string ProcessName = FormatSyslogAsciiField(ProcessHelpers.GetRunningProcess().GetName(), 48, false);
-
-        /// <summary>
-        /// The process identifier, formatted to comply with RFC5234.
-        /// </summary>
-        private static readonly string ProcessId = FormatSyslogAsciiField(ProcessHelpers.GetRunningProcess().Id.ToString(UnitedStatesEnglishCultureInfo), 48, false);
-
-        /// <summary>
         /// Builds a syslog message that complies with RFC5424.
         /// </summary>
+        /// <param name="fullyQualifiedDomainName">The fully qualified domain name of the originator.  Can be null in the rare case that it's unknown.</param>
+        /// <param name="applicationName">The name of the application that originated the message.  Can be null if unknown or explicitly withheld.</param>
+        /// <param name="processIdentifier">The process name or process identifier, having no interoperable meaning, except that a change in the value indicates that there has been a discontinuity in the syslog reporting.  Can also be used to identify which messages belong to a group of messages.  Can be null if not available.</param>
         /// <param name="timestamp">The timestamp of the message.</param>
         /// <param name="facility">The facility to use.</param>
         /// <param name="severity">The severity to use.</param>
         /// <param name="logMessage">The message to log.  Can be null if none exists.</param>
         /// <param name="encodeMessageInUtf8">Determines if the logMessage should be encoded in UTF-8.</param>
-        /// <param name="messageId">The message identifier.  Can be null if none exists.</param>
+        /// <param name="messageId">The message identifier, which identifies the type of message.  Messages with the same identifier should reflect events of the same semantics.  Can be null if none exists.</param>
         /// <param name="structuredDataId">The structured data identifier.  Can be null if none exists.</param>
         /// <param name="structuredData">The structured data as an ordered set of key/value pairs.  Can be null if none exists.</param>
         /// <returns>The syslog message encoded in bytes.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Rfc", Justification = "This is spelled correctly.")]
         public static byte[] BuildRfc5424Message(
+            string fullyQualifiedDomainName,
+            string applicationName,
+            string processIdentifier,
             DateTime timestamp,
             Facility facility,
             Severity severity,
@@ -87,34 +76,43 @@ namespace OBeautifulCode.Logging.Recipes
         {
             if (timestamp.Kind != DateTimeKind.Utc)
             {
-                throw new ArgumentException($"{nameof(timestamp)}.{nameof(DateTime.Kind)} is {timestamp.Kind}, expecting {DateTimeKind.Utc}.");
+                throw new ArgumentException(Invariant($"{nameof(timestamp)}.{nameof(DateTime.Kind)} is {timestamp.Kind}, expecting {DateTimeKind.Utc}."));
             }
 
             var bytes = new List<byte[]>();
 
+            // build header tokens
+            var priorityToken = BuildPriorityToken(facility, severity);
+            var timestampToken = timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffZ", UnitedStatesEnglishCultureInfo);
+            var fullyQualifiedDomainNameToken = FormatSyslogAsciiField(fullyQualifiedDomainName, 255, false);
+            var applicationNameToken = FormatSyslogAsciiField(applicationName, 48, false);
+            var processIdentifierToken = FormatSyslogAsciiField(processIdentifier, 48, false);
+            var messageIdToken = FormatSyslogAsciiField(messageId, 32, false);
+
             // build the header
             var messageBuilder = new StringBuilder();
-            messageBuilder.Append(BuildPriorityToken(facility, severity));
+            messageBuilder.Append(priorityToken);
             messageBuilder.Append(SyslogVersion);
             messageBuilder.Append(" ");
-            messageBuilder.Append(timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffZ", UnitedStatesEnglishCultureInfo));
+            messageBuilder.Append(timestampToken);
             messageBuilder.Append(" ");
-            messageBuilder.Append(Fqdn);
+            messageBuilder.Append(fullyQualifiedDomainNameToken);
             messageBuilder.Append(" ");
-            messageBuilder.Append(ProcessName);
+            messageBuilder.Append(applicationNameToken);
             messageBuilder.Append(" ");
-            messageBuilder.Append(ProcessId);
+            messageBuilder.Append(processIdentifierToken);
             messageBuilder.Append(" ");
-            messageBuilder.Append(FormatSyslogAsciiField(messageId, 32, false));
+            messageBuilder.Append(messageIdToken);
             messageBuilder.Append(" ");
+
             bytes.Add(Encoding.ASCII.GetBytes(messageBuilder.ToString()));
 
             // build structured data
             // there are two kinds of SD-ID, one with the @ sign and one without
             // and rules differ between the two.  Here we are just fixing for control characters
             // and some special characters that are not allowed.
-            structuredDataId = FormatSyslogAsciiField(structuredDataId, 42, true);
-            if (structuredDataId == NilValue)
+            var structuredDataIdToken = FormatSyslogAsciiField(structuredDataId, 42, true);
+            if (structuredDataIdToken == NilValue)
             {
                 // if the data id is empty then insert Nil
                 bytes.Add(Encoding.ASCII.GetBytes(NilValue));
@@ -122,7 +120,7 @@ namespace OBeautifulCode.Logging.Recipes
             else
             {
                 // start the structured data token and insert the id
-                bytes.Add(Encoding.ASCII.GetBytes("[" + structuredDataId));
+                bytes.Add(Encoding.ASCII.GetBytes("[" + structuredDataIdToken));
 
                 // add all structured data key/value pairs
                 if (structuredData != null)
@@ -130,14 +128,14 @@ namespace OBeautifulCode.Logging.Recipes
                     foreach (var structuredDataItem in structuredData)
                     {
                         // is the param name valid?  if not, skip this kvp
-                        var paramName = FormatSyslogAsciiField(structuredDataItem.Key, 32, true);
-                        if (paramName == NilValue)
+                        var paramNameToken = FormatSyslogAsciiField(structuredDataItem.Key, 32, true);
+                        if (paramNameToken == NilValue)
                         {
                             continue;
                         }
 
                         // param name is valid, insert SP Name="
-                        bytes.Add(Encoding.ASCII.GetBytes(" " + paramName + @"="""));
+                        bytes.Add(Encoding.ASCII.GetBytes(" " + paramNameToken + @"="""));
                         var structuredDataItemValue = structuredDataItem.Value;
                         var structuredDataValueBuilder = new StringBuilder();
                         if (structuredDataItemValue != null)

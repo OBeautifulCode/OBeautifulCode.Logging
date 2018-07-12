@@ -26,6 +26,12 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
     public static class SyslogMessageBuilderTest
     {
+        private static readonly string FullyQualifiedDomainName = MachineName.GetFullyQualifiedDomainName();
+
+        private static readonly string ApplicationName = ProcessHelpers.GetRunningProcess().GetName();
+
+        private static readonly string ProcessId = ProcessHelpers.GetRunningProcess().Id.ToString();
+
         [Fact]
         public static void BuildRfc5424Message___Should_throw_ArgumentException___When_parameter_timestamp_DateTimeKind_is_not_Utc()
         {
@@ -41,8 +47,8 @@ namespace OBeautifulCode.Logging.Syslog.Test
             var structuredData = Some.ReadOnlyDummies<KeyValuePair<string, string>>();
 
             // Act
-            var ex1 = Record.Exception(() => SyslogMessageBuilder.BuildRfc5424Message(timestamp1, facility, severity, logMessage, encodeMessageInUtf8, messageId, structuredDataId, structuredData));
-            var ex2 = Record.Exception(() => SyslogMessageBuilder.BuildRfc5424Message(timestamp2, facility, severity, logMessage, encodeMessageInUtf8, messageId, structuredDataId, structuredData));
+            var ex1 = Record.Exception(() => SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timestamp1, facility, severity, logMessage, encodeMessageInUtf8, messageId, structuredDataId, structuredData));
+            var ex2 = Record.Exception(() => SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timestamp2, facility, severity, logMessage, encodeMessageInUtf8, messageId, structuredDataId, structuredData));
 
             // Assert
             ex1.Should().BeOfType<ArgumentException>();
@@ -73,21 +79,21 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected12 = Encoding.ASCII.GetBytes("<127>");
 
             // Act
-            byte[] message1 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Kernel, Severity.Emergency, "my message", true, null, null, null);
-            byte[] message2 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Kernel, Severity.Warning, "my message", true, null, null, null);
-            byte[] message3 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Kernel, Severity.Debug, "my message", true, null, null, null);
+            byte[] message1 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Kernel, Severity.Emergency, "my message", true, null, null, null);
+            byte[] message2 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Kernel, Severity.Warning, "my message", true, null, null, null);
+            byte[] message3 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Kernel, Severity.Debug, "my message", true, null, null, null);
 
-            byte[] message4 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Local7, Severity.Emergency, "my message", true, null, null, null);
-            byte[] message5 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
-            byte[] message6 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Local7, Severity.Debug, "my message", true, null, null, null);
+            byte[] message4 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Local7, Severity.Emergency, "my message", true, null, null, null);
+            byte[] message5 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+            byte[] message6 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Local7, Severity.Debug, "my message", true, null, null, null);
 
-            byte[] message7 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Uucp, Severity.Emergency, "my message", true, null, null, null);
-            byte[] message8 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Uucp, Severity.Warning, "my message", true, null, null, null);
-            byte[] message9 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Uucp, Severity.Debug, "my message", true, null, null, null);
+            byte[] message7 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Uucp, Severity.Emergency, "my message", true, null, null, null);
+            byte[] message8 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Uucp, Severity.Warning, "my message", true, null, null, null);
+            byte[] message9 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Uucp, Severity.Debug, "my message", true, null, null, null);
 
-            byte[] message10 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Clock2, Severity.Emergency, "my message", true, null, null, null);
-            byte[] message11 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Clock2, Severity.Warning, "my message", true, null, null, null);
-            byte[] message12 = SyslogMessageBuilder.BuildRfc5424Message(DateTime.Now, Facility.Clock2, Severity.Debug, "my message", true, null, null, null);
+            byte[] message10 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Clock2, Severity.Emergency, "my message", true, null, null, null);
+            byte[] message11 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Clock2, Severity.Warning, "my message", true, null, null, null);
+            byte[] message12 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, DateTime.UtcNow, Facility.Clock2, Severity.Debug, "my message", true, null, null, null);
 
             // Assert
             Assert.True(message1.Take(expected1.Length).SequenceEqual(expected1));
@@ -118,8 +124,8 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected2 = Encoding.ASCII.GetBytes("<188>1 2014-10-02T14:05:39.841Z");
 
             // Act
-            byte[] message1 = SyslogMessageBuilder.BuildRfc5424Message(timeStamp1, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
-            byte[] message2 = SyslogMessageBuilder.BuildRfc5424Message(timeStamp2, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+            byte[] message1 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp1, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+            byte[] message2 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp2, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
 
             // Assert
             Assert.True(message1.Take(expected1.Length).SequenceEqual(expected1));
@@ -131,13 +137,55 @@ namespace OBeautifulCode.Logging.Syslog.Test
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            byte[] expected = Encoding.ASCII.GetBytes(string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id));
+            byte[] expected = Encoding.ASCII.GetBytes($"<188>1 2014-05-20T07:42:06.083Z {FullyQualifiedDomainName} {ApplicationName} {ProcessId}");
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
+        }
+
+        [Fact]
+        public static void BuildRfc5424Message___Should_use_Nil_for_FQDN___When_fullyQualifiedDomainName_is_null()
+        {
+            // Arrange
+            var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
+            var expected = Encoding.ASCII.GetBytes($"<188>1 2014-05-20T07:42:06.083Z - {ApplicationName} {ProcessId}");
+
+            // Act
+            var actual = SyslogMessageBuilder.BuildRfc5424Message(null, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+
+            // Assert
+            actual.Take(expected.Length).Should().Equal(expected);
+        }
+
+        [Fact]
+        public static void BuildRfc5424Message___Should_use_Nil_for_APP_NAME___When_applicationName_is_null()
+        {
+            // Arrange
+            var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
+            var expected = Encoding.ASCII.GetBytes($"<188>1 2014-05-20T07:42:06.083Z {FullyQualifiedDomainName} - {ProcessId}");
+
+            // Act
+            var actual = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, null, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+
+            // Assert
+            actual.Take(expected.Length).Should().Equal(expected);
+        }
+
+        [Fact]
+        public static void BuildRfc5424Message___Should_use_Nil_for_PROCID___When_processIdentifier_is_null()
+        {
+            // Arrange
+            var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
+            var expected = Encoding.ASCII.GetBytes($"<188>1 2014-05-20T07:42:06.083Z {FullyQualifiedDomainName} {ApplicationName} -");
+
+            // Act
+            var actual = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, null, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+
+            // Assert
+            actual.Take(expected.Length).Should().Equal(expected);
         }
 
         [Fact(Skip = "No good way to test this, would need to fool .net to think that the host name is a very large string.")]
@@ -165,7 +213,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -188,7 +236,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, messageId, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, messageId, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -205,7 +253,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, MessageId, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, MessageId, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -222,7 +270,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, messageId, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, messageId, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -239,7 +287,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, MessageId, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, MessageId, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -255,7 +303,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, null, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -272,7 +320,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -289,7 +337,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -312,7 +360,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, null);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, null);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -339,7 +387,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -363,7 +411,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -387,7 +435,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -411,7 +459,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -435,7 +483,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -461,7 +509,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, "my message", true, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.Take(expected.Length).SequenceEqual(expected));
@@ -494,8 +542,8 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected2 = Encoding.ASCII.GetBytes(expectedHeader2);
 
             // Act
-            byte[] message1 = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, null, true, null, StructuredDataId, structuredData);
-            byte[] message2 = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, null, true, null, null, structuredData);
+            byte[] message1 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, null, true, null, StructuredDataId, structuredData);
+            byte[] message2 = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, null, true, null, null, structuredData);
 
             // Assert
             Assert.True(message1.SequenceEqual(expected1));
@@ -520,7 +568,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, Message, EnecodeMessageInUtf8, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, Message, EnecodeMessageInUtf8, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.SequenceEqual(expected));
@@ -548,7 +596,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
                     .ToArray();
 
             // Act
-            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(timeStamp, Facility.Local7, Severity.Warning, Message, EnecodeMessageInUtf8, null, StructuredDataId, structuredData);
+            byte[] message = SyslogMessageBuilder.BuildRfc5424Message(FullyQualifiedDomainName, ApplicationName, ProcessId, timeStamp, Facility.Local7, Severity.Warning, Message, EnecodeMessageInUtf8, null, StructuredDataId, structuredData);
 
             // Assert
             Assert.True(message.SequenceEqual(expected));
