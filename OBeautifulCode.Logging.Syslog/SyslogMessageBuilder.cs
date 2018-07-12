@@ -52,7 +52,7 @@ namespace OBeautifulCode.Logging.Recipes
         /// <param name="fullyQualifiedDomainName">The fully qualified domain name of the originator.  Can be null in the rare case that it's unknown.</param>
         /// <param name="applicationName">The name of the application that originated the message.  Can be null if unknown or explicitly withheld.</param>
         /// <param name="processIdentifier">The process name or process identifier, having no interoperable meaning, except that a change in the value indicates that there has been a discontinuity in the syslog reporting.  Can also be used to identify which messages belong to a group of messages.  Can be null if not available.</param>
-        /// <param name="timestamp">The timestamp of the message.</param>
+        /// <param name="timestamp">The timestamp of the message, in UTC.</param>
         /// <param name="facility">The facility to use.</param>
         /// <param name="severity">The severity to use.</param>
         /// <param name="logMessage">The message to log.  Can be null if none exists.</param>
