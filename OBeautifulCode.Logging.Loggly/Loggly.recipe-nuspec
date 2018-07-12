@@ -6,7 +6,7 @@
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Loggly/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.14" />
-      <dependency id="OBeautifulCode.Logging.Recipes.Syslog" version="1.0.2" />
+      <dependency id="OBeautifulCode.Logging.Recipes.Syslog" version="1.0.3" />
     </dependencies>
   </metadata>
   <files>
