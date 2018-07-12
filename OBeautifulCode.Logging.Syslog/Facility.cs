@@ -7,7 +7,7 @@
 // </auto-generated>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Logging.Syslog.Recipes
+namespace OBeautifulCode.Logging.Recipes
 {
     using System.Diagnostics.CodeAnalysis;
 

@@ -13,16 +13,47 @@ namespace OBeautifulCode.Logging.Syslog.Test
     using System.Linq;
     using System.Text;
 
+    using FakeItEasy;
+
+    using FluentAssertions;
+
     using Naos.Diagnostics.Recipes;
 
-    using OBeautifulCode.Logging.Syslog.Recipes;
+    using OBeautifulCode.AutoFakeItEasy;
+    using OBeautifulCode.Logging.Recipes;
 
     using Xunit;
 
     public static class SyslogMessageBuilderTest
     {
         [Fact]
-        public static void Build_ProperlyEncodesPriorityFromFacilityAndSeverityInHeader()
+        public static void BuildRfc5424Message___Should_throw_ArgumentException___When_parameter_timestamp_DateTimeKind_is_not_Utc()
+        {
+            // Arrange
+            var timestamp1 = new DateTime(1, DateTimeKind.Local);
+            var timestamp2 = new DateTime(1, DateTimeKind.Unspecified);
+            var facility = A.Dummy<Facility>();
+            var severity = A.Dummy<Severity>();
+            var logMessage = A.Dummy<string>();
+            var encodeMessageInUtf8 = A.Dummy<bool>();
+            var messageId = A.Dummy<string>();
+            var structuredDataId = A.Dummy<string>();
+            var structuredData = Some.ReadOnlyDummies<KeyValuePair<string, string>>();
+
+            // Act
+            var ex1 = Record.Exception(() => SyslogMessageBuilder.BuildRfc5424Message(timestamp1, facility, severity, logMessage, encodeMessageInUtf8, messageId, structuredDataId, structuredData));
+            var ex2 = Record.Exception(() => SyslogMessageBuilder.BuildRfc5424Message(timestamp2, facility, severity, logMessage, encodeMessageInUtf8, messageId, structuredDataId, structuredData));
+
+            // Assert
+            ex1.Should().BeOfType<ArgumentException>();
+            ex1.Message.Should().Be("timestamp.Kind is Local, expecting Utc.");
+
+            ex2.Should().BeOfType<ArgumentException>();
+            ex2.Message.Should().Be("timestamp.Kind is Unspecified, expecting Utc.");
+        }
+
+        [Fact]
+        public static void BuildRfc5424Message___ProperlyEncodesPriorityFromFacilityAndSeverityInHeader()
         {
             // Arrange
             byte[] expected1 = Encoding.ASCII.GetBytes("<0>");
@@ -77,7 +108,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_ProperlyEncodesVersionAndTimestampInHeader()
+        public static void BuildRfc5424Message___ProperlyEncodesVersionAndTimestampInHeader()
         {
             // Arrange
             var timeStamp1 = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
@@ -96,7 +127,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_ProperlyEncodesHostNameAppNameAndProcessIdInHeader()
+        public static void BuildRfc5424Message___ProperlyEncodesHostNameAppNameAndProcessIdInHeader()
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
@@ -110,22 +141,22 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact(Skip = "No good way to test this, would need to fool .net to think that the host name is a very large string.")]
-        public static void Build_WhenHostNameIsGreaterThan255Characters_LimitsHostNameTo255CharactersInHeader()
+        public static void BuildRfc5424Message___WhenHostNameIsGreaterThan255Characters_LimitsHostNameTo255CharactersInHeader()
         {
         }
 
         [Fact(Skip = "No good way to test this, would fool .net to thinking that the process name is a very long string.")]
-        public static void Build_WhenAppNameIsGreaterThan48Characters_LimitsAppNameTo48CharactersInHeader()
+        public static void BuildRfc5424Message___WhenAppNameIsGreaterThan48Characters_LimitsAppNameTo48CharactersInHeader()
         {
         }
 
         [Fact(Skip = "No good way to test this, would need to fool .net to think that the process id is a very large string.")]
-        public static void Build_WhenProcessIdIsGreaterThan128Characters_LimitsProcessIdTo128CharactersInHeader()
+        public static void BuildRfc5424Message___WhenProcessIdIsGreaterThan128Characters_LimitsProcessIdTo128CharactersInHeader()
         {
         }
 
         [Fact]
-        public static void Build_WhenMessageIdIsNull_InsertsNilInHeader()
+        public static void BuildRfc5424Message___WhenMessageIdIsNull_InsertsNilInHeader()
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
@@ -141,7 +172,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_WhenMessageIdContainsOnlyInvalidCharacters_InsertsNilInHeader()
+        public static void BuildRfc5424Message___WhenMessageIdContainsOnlyInvalidCharacters_InsertsNilInHeader()
         {
             // Arrange
             string messageId = " ";
@@ -164,7 +195,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_WhenMessageIdIsNotNull_InsertsMessageIdInHeader()
+        public static void BuildRfc5424Message___WhenMessageIdIsNotNull_InsertsMessageIdInHeader()
         {
             // Arrange
             const string MessageId = "29292817";
@@ -181,7 +212,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_WhenMessageIdContainsAsciiCharactersOutsideOf32To126_InsertsMessageIdWithInvalidCharactersRemoved()
+        public static void BuildRfc5424Message___WhenMessageIdContainsAsciiCharactersOutsideOf32To126_InsertsMessageIdWithInvalidCharactersRemoved()
         {
             // Arrange
             string messageId = "2!z )!@#$%" + ((char)1) + ((char)2) + "^&*" + ((char)31) + "()3a" + ((char)127);
@@ -198,7 +229,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_WhenMessageIdContainsMoreThan32Characters_InsertsMessageIdTruncatedTo32Characters()
+        public static void BuildRfc5424Message___WhenMessageIdContainsMoreThan32Characters_InsertsMessageIdTruncatedTo32Characters()
         {
             // Arrange
             const string MessageId = "asdfg  hkl;qwertyuiop{]<.sdcvn.zxmncvb";
@@ -215,7 +246,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_StructuredDataIdIsNull_InsertsNilForStructuredData()
+        public static void BuildRfc5424Message___StructuredDataIdIsNull_InsertsNilForStructuredData()
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
@@ -231,7 +262,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_StructuredDataIdHasNoValidCharacters_InsertsNilForStructuredData()
+        public static void BuildRfc5424Message___StructuredDataIdHasNoValidCharacters_InsertsNilForStructuredData()
         {
             // Arrange
             const string StructuredDataId = "= ]\"";
@@ -248,7 +279,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_StructuredDataHasSomeInvalidCharacters_RemovesInvalidCharacters()
+        public static void BuildRfc5424Message___StructuredDataHasSomeInvalidCharacters_RemovesInvalidCharacters()
         {
             // Arrange
             const string StructuredDataId = "This\"Is My@Ident ]ifier!{;=";
@@ -265,13 +296,13 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact(Skip = "We have not fully implemented the SD-ID, which has some nuance depending on whether the @ sign is included in the identifier.  And Loggly violates the RFC, so we do not restrict to 32-characters.")]
-        public static void Build_StructuredDataIdentifierHasMoreThan32ValidCharacters_RemovesInvalidCharacters()
+        public static void BuildRfc5424Message___StructuredDataIdentifierHasMoreThan32ValidCharacters_RemovesInvalidCharacters()
         {
         }
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Params", Justification = "This is spelled correctly.")]
-        public static void Build_StructuredDataParams_IsNull_NotIncludedInStructuredData()
+        public static void BuildRfc5424Message___StructuredDataParams_IsNull_NotIncludedInStructuredData()
         {
             // Arrange
             const string StructuredDataId = "ThisIsMy@Identifier";
@@ -289,7 +320,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Params", Justification = "This is spelled correctly.")]
-        public static void Build_StructuredDataParamsNamesAreAllNullOrEmptyOrContainAllInvalidCharacters_NoParamsIncludedInStructuredData()
+        public static void BuildRfc5424Message___StructuredDataParamsNamesAreAllNullOrEmptyOrContainAllInvalidCharacters_NoParamsIncludedInStructuredData()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -316,7 +347,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
-        public static void Build_StructuredDataParamNameContainsInvalidCharacters_InvalidCharactersAreRemoved()
+        public static void BuildRfc5424Message___StructuredDataParamNameContainsInvalidCharacters_InvalidCharactersAreRemoved()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -340,7 +371,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
-        public static void Build_StructuredDataParamNameContainsMoreThan32ValidCharacters_ParamNameTruncatedTo32Characters()
+        public static void BuildRfc5424Message___StructuredDataParamNameContainsMoreThan32ValidCharacters_ParamNameTruncatedTo32Characters()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -364,7 +395,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
-        public static void Build_StructuredDataParamValueIsNull_ParamValueIsSetToEmptyString()
+        public static void BuildRfc5424Message___StructuredDataParamValueIsNull_ParamValueIsSetToEmptyString()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -388,7 +419,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
-        public static void Build_StructuredDataParamValueContainsCharactersThatMustBeEscaped_CharactersAreEscaped()
+        public static void BuildRfc5424Message___StructuredDataParamValueContainsCharactersThatMustBeEscaped_CharactersAreEscaped()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -412,7 +443,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Params", Justification = "This is spelled correctly.")]
-        public static void Build_MultipleValidStructuredDataParams_AllParamsAreEncoded()
+        public static void BuildRfc5424Message___MultipleValidStructuredDataParams_AllParamsAreEncoded()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -438,12 +469,12 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact(Skip = "Being lazy here - need to test this.")]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", Justification = "This is spelled correctly.")]
-        public static void Build_EncodesStructuredDataParamValuesInUtf8()
+        public static void BuildRfc5424Message___EncodesStructuredDataParamValuesInUtf8()
         {
         }
 
         [Fact]
-        public static void Build_MessageIsNull_LastElementInEncodedMessageIsStructuredDataTerminatedWithNewLine()
+        public static void BuildRfc5424Message___MessageIsNull_LastElementInEncodedMessageIsStructuredDataTerminatedWithNewLine()
         {
             // Arrange
             var structuredData = new List<KeyValuePair<string, string>>
@@ -472,7 +503,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
         }
 
         [Fact]
-        public static void Build_MessageIsNotNullAndUtf8EncodingIsFalse_MessageIsEncodedInAsciiAndAddedToTailWithNewLineTerminator()
+        public static void BuildRfc5424Message___MessageIsNotNullAndUtf8EncodingIsFalse_MessageIsEncodedInAsciiAndAddedToTailWithNewLineTerminator()
         {
             // Arrange
             const bool EnecodeMessageInUtf8 = false;
@@ -497,7 +528,7 @@ namespace OBeautifulCode.Logging.Syslog.Test
 
         [Fact]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Bom", Justification = "This is spelled correctly.")]
-        public static void Build_MessageIsNotNullAndUtf8EncodingIsTrue_MessageIsEncodedWithBomFollowedByUtf8StringAndAddedToTailWithNewLineTerminator()
+        public static void BuildRfc5424Message___MessageIsNotNullAndUtf8EncodingIsTrue_MessageIsEncodedWithBomFollowedByUtf8StringAndAddedToTailWithNewLineTerminator()
         {
             // Arrange
             const bool EnecodeMessageInUtf8 = true;

@@ -7,7 +7,7 @@
 // </auto-generated>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Logging.Syslog.Recipes
+namespace OBeautifulCode.Logging.Recipes
 {
     using System;
     using System.Collections.Generic;
@@ -85,6 +85,11 @@ namespace OBeautifulCode.Logging.Syslog.Recipes
             string structuredDataId,
             IReadOnlyList<KeyValuePair<string, string>> structuredData)
         {
+            if (timestamp.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentException($"{nameof(timestamp)}.{nameof(DateTime.Kind)} is {timestamp.Kind}, expecting {DateTimeKind.Utc}.");
+            }
+
             var bytes = new List<byte[]>();
 
             // build the header
