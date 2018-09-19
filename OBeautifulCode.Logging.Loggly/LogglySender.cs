@@ -76,7 +76,7 @@ namespace OBeautifulCode.Logging.Recipes
         /// <param name="timestamp">The timestamp of the message, in UTC.</param>
         /// <param name="messagePayload">The message payload.  Can be as simple as a string message (e.g. "something happend") or an object serialized to json.</param>
         /// <param name="messageType">The type of message.  Can be null if unkonwn or not applicable.</param>
-        /// <param name="tags">Optional tags to apply to the log message.  Default is null (no tags).</param>
+        /// <param name="logglyTags">Optional Loggly-compliant tags to apply to the log message.  Default is null (no tags).</param>
         public static void SendLogMessageToLoggly(
             string fullyQualifiedDomainName,
             string applicationName,
@@ -85,23 +85,23 @@ namespace OBeautifulCode.Logging.Recipes
             DateTime timestamp,
             string messagePayload,
             string messageType,
-            IReadOnlyCollection<string> tags = null)
+            IReadOnlyCollection<LogglyTag> logglyTags = null)
         {
             if (settings == null)
             {
                 throw new InvalidOperationException(Invariant($"{nameof(Initialize)} has not yet been called."));
             }
 
-            tags = tags?.Where(_ => !string.IsNullOrWhiteSpace(_)).ToList() ?? new List<string>();
+            logglyTags = logglyTags?.Where(_ => _ != null).ToList() ?? new List<LogglyTag>();
 
             // build the syslog message and queue-up
             var structuredDataId = settings.CustomerToken + "@" + settings.LogglyPrivateEnterpriseNumber;
 
             // add tags to structured data
             IReadOnlyList<KeyValuePair<string, string>> structuredData = null;
-            if (tags.Any())
+            if (logglyTags.Any())
             {
-                structuredData = tags.Select(tag => new KeyValuePair<string, string>("tag", tag)).ToList();
+                structuredData = logglyTags.Select(_ => new KeyValuePair<string, string>("tag", _.Tag)).ToList();
             }
 
             // build the syslog message and queue up

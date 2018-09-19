@@ -6,11 +6,13 @@
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Loggly/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.Validation.Recipes.ParameterValidator" version="1.0.14" />
-      <dependency id="OBeautifulCode.Logging.Recipes.Syslog" version="1.0.3" />
+      <dependency id="OBeautifulCode.Logging.Recipes.Syslog" version="1.0.5" />
+      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.32" />
     </dependencies>
   </metadata>
   <files>
     <file src="LogglySender.cs" target="content\net462\.recipes\OBeautifulCode.Logging\LogglySender.cs" />
     <file src="LogglySettings.cs" target="content\net462\.recipes\OBeautifulCode.Logging\LogglySettings.cs" />
+    <file src="LogglyTag.cs" target="content\net462\.recipes\OBeautifulCode.Logging\LogglyTag.cs" />
   </files>
 </package>

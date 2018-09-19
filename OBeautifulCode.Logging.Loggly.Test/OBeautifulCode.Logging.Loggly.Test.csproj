@@ -111,6 +111,7 @@
     <Compile Include=".recipes\OBeautifulCode.Validation\Range.cs" />
     <Compile Include=".recipes\OBeautifulCode.Validation\ValidatedNotNullAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LogglyTagTest.cs" />
     <Compile Include="LogglySenderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

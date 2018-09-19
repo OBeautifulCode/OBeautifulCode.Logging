@@ -173,7 +173,7 @@ namespace OBeautifulCode.Logging.Loggly.Test
             var timestamp = DateTime.UtcNow;
             var messagePayload = "{ \"property1\": true, \"property2\": \"some text\" }";
             var messageType = "MessageType";
-            var tags = new[] { "tag1", "tag2" };
+            var tags = new[] { new LogglyTag("tag1"), new LogglyTag("tag2") };
 
             // Act, Assert
             LogglySender.SendLogMessageToLoggly(machineName, applicationName, processId, severity, timestamp, messagePayload, messageType, tags);
