@@ -41,6 +41,10 @@ namespace OBeautifulCode.Logging.Recipes
         /// <summary>
         /// Gets or sets the Loggly private enterprise number.
         /// </summary>
+        /// <remarks>
+        /// This identifies Loggly the company, it's assigned by IANA.
+        /// See <a href="https://www.iana.org/assignments/enterprise-numbers/enterprise-numbers" />.
+        /// </remarks>
         public string LogglyPrivateEnterpriseNumber { get; set; } = "41058";
 
         /// <summary>
