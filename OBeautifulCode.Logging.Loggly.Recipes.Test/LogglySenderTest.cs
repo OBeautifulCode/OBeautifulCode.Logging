@@ -16,7 +16,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
 
     using Naos.Recipes.Configuration.Setup;
 
-    using OBeautifulCode.Logging.Recipes;
+    using OBeautifulCode.Logging.Syslog.Recipes;
 
     using Xunit;
 

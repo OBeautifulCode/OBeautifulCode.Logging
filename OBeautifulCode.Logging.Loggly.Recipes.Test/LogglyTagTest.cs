@@ -10,8 +10,6 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
 
     using FluentAssertions;
 
-    using OBeautifulCode.Logging.Recipes;
-
     using Xunit;
 
     public static class LogglyTagTest

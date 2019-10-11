@@ -20,7 +20,6 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
     using Naos.Diagnostics.Recipes;
 
     using OBeautifulCode.AutoFakeItEasy;
-    using OBeautifulCode.Logging.Recipes;
 
     using Xunit;
 
