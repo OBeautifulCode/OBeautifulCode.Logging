@@ -1,7 +1,0 @@
-﻿<package>
-  <metadata>
-    <description>Sends log messages to Loggly.</description>
-    <tags>Loggly</tags>
-    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Loggly/nuget-icon.png</iconUrl>
-  </metadata>
-</package>

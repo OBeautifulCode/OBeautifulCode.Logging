@@ -7,8 +7,8 @@
     <ProjectGuid>{4AE6BCF7-1588-4457-AAEA-A774D9A5B606}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OBeautifulCode.Logging.Loggly</RootNamespace>
-    <AssemblyName>OBeautifulCode.Logging.Loggly</AssemblyName>
+    <RootNamespace>OBeautifulCode.Logging.Loggly.Recipes</RootNamespace>
+    <AssemblyName>OBeautifulCode.Logging.Loggly.Recipes</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\OBeautifulCode.Logging.Loggly.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\OBeautifulCode.Logging.Loggly.Recipes.xml</DocumentationFile>
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\OBeautifulCode.Logging.Loggly.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\OBeautifulCode.Logging.Loggly.Recipes.xml</DocumentationFile>
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
@@ -42,13 +42,13 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\OBeautifulCode.Logging.Syslog\Facility.cs">
+    <Compile Include="..\OBeautifulCode.Logging.Syslog.Recipes\Facility.cs">
       <Link>.recipes\OBeautifulCode.Logging\Facility.cs</Link>
     </Compile>
-    <Compile Include="..\OBeautifulCode.Logging.Syslog\Severity.cs">
+    <Compile Include="..\OBeautifulCode.Logging.Syslog.Recipes\Severity.cs">
       <Link>.recipes\OBeautifulCode.Logging\Severity.cs</Link>
     </Compile>
-    <Compile Include="..\OBeautifulCode.Logging.Syslog\SyslogMessageBuilder.cs">
+    <Compile Include="..\OBeautifulCode.Logging.Syslog.Recipes\SyslogMessageBuilder.cs">
       <Link>.recipes\OBeautifulCode.Logging\SyslogMessageBuilder.cs</Link>
     </Compile>
     <Compile Include=".recipes\OBeautifulCode.String\StringExtensions.cs" />
@@ -72,7 +72,6 @@
     <AdditionalFiles Include=".analyzers\stylecop.json" />
     <None Include=".analyzers\release.ruleset" />
     <None Include="nuget-icon.png" />
-    <None Include="OBeautifulCode.Logging.Loggly.override-nuspec" />
     <None Include="packages.config" />
     <None Include="Loggly.recipe-nuspec" />
   </ItemGroup>

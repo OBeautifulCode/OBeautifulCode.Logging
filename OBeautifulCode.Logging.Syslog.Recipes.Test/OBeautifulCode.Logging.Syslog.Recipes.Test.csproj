@@ -8,8 +8,8 @@
     <ProjectGuid>{F883910F-78D6-428F-9C41-52C6061BE387}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OBeautifulCode.Logging.Syslog.Test</RootNamespace>
-    <AssemblyName>OBeautifulCode.Logging.Syslog.Test</AssemblyName>
+    <RootNamespace>OBeautifulCode.Logging.Syslog.Recipes.Test</RootNamespace>
+    <AssemblyName>OBeautifulCode.Logging.Syslog.Recipes.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -85,9 +85,9 @@
     <Compile Include="SyslogMessageBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OBeautifulCode.Logging.Syslog\OBeautifulCode.Logging.Syslog.csproj">
+    <ProjectReference Include="..\OBeautifulCode.Logging.Syslog.Recipes\OBeautifulCode.Logging.Syslog.Recipes.csproj">
       <Project>{f5c6cce5-5c47-4725-8d78-ab9f1d797ebf}</Project>
-      <Name>OBeautifulCode.Logging.Syslog</Name>
+      <Name>OBeautifulCode.Logging.Syslog.Recipes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

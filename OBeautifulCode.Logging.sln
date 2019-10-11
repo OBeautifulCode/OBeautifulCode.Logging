@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Syslog", "OBeautifulCode.Logging.Syslog\OBeautifulCode.Logging.Syslog.csproj", "{F5C6CCE5-5C47-4725-8D78-AB9F1D797EBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Syslog.Recipes", "OBeautifulCode.Logging.Syslog.Recipes\OBeautifulCode.Logging.Syslog.Recipes.csproj", "{F5C6CCE5-5C47-4725-8D78-AB9F1D797EBF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26BF3F37-E8F7-4344-8C00-524F6134BBA0}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Syslog.Test", "OBeautifulCode.Logging.Syslog.Test\OBeautifulCode.Logging.Syslog.Test.csproj", "{F883910F-78D6-428F-9C41-52C6061BE387}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Syslog.Recipes.Test", "OBeautifulCode.Logging.Syslog.Recipes.Test\OBeautifulCode.Logging.Syslog.Recipes.Test.csproj", "{F883910F-78D6-428F-9C41-52C6061BE387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Loggly", "OBeautifulCode.Logging.Loggly\OBeautifulCode.Logging.Loggly.csproj", "{4AE6BCF7-1588-4457-AAEA-A774D9A5B606}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Loggly.Recipes", "OBeautifulCode.Logging.Loggly.Recipes\OBeautifulCode.Logging.Loggly.Recipes.csproj", "{4AE6BCF7-1588-4457-AAEA-A774D9A5B606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Loggly.Test", "OBeautifulCode.Logging.Loggly.Test\OBeautifulCode.Logging.Loggly.Test.csproj", "{DF436E52-6464-43C5-8EA7-8392D29B1C4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBeautifulCode.Logging.Loggly.Recipes.Test", "OBeautifulCode.Logging.Loggly.Recipes.Test\OBeautifulCode.Logging.Loggly.Recipes.Test.csproj", "{DF436E52-6464-43C5-8EA7-8392D29B1C4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@
     <id>OBeautifulCode.Logging.Recipes.Syslog</id>
     <description>Builds syslog messages.</description>
     <tags>syslog</tags>
-    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Syslog/nuget-icon.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Syslog.Recipes/nuget-icon.png</iconUrl>
   </metadata>
   <files>
     <file src="Facility.cs" target="content\net462\.recipes\OBeautifulCode.Logging\Facility.cs" />

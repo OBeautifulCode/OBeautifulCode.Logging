@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Logging.Loggly.Test
+namespace OBeautifulCode.Logging.Loggly.Recipes.Test
 {
     using System;
 

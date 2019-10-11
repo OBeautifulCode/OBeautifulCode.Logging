@@ -8,8 +8,8 @@
     <ProjectGuid>{DF436E52-6464-43C5-8EA7-8392D29B1C4D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OBeautifulCode.Logging.Loggly.Test</RootNamespace>
-    <AssemblyName>OBeautifulCode.Logging.Loggly.Test</AssemblyName>
+    <RootNamespace>OBeautifulCode.Logging.Loggly.Recipes.Test</RootNamespace>
+    <AssemblyName>OBeautifulCode.Logging.Loggly.Recipes.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -116,9 +116,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OBeautifulCode.Logging.Loggly\OBeautifulCode.Logging.Loggly.csproj">
+    <ProjectReference Include="..\OBeautifulCode.Logging.Loggly.Recipes\OBeautifulCode.Logging.Loggly.Recipes.csproj">
       <Project>{4ae6bcf7-1588-4457-aaea-a774d9a5b606}</Project>
-      <Name>OBeautifulCode.Logging.Loggly</Name>
+      <Name>OBeautifulCode.Logging.Loggly.Recipes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

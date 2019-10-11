@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OBeautifulCode.Logging.Syslog.Test
+namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 {
     using System;
     using System.Collections.Generic;
