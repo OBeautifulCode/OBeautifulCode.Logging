@@ -12,8 +12,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     using System;
     using System.Text.RegularExpressions;
 
+    using OBeautifulCode.Assertion.Recipes;
     using OBeautifulCode.String.Recipes;
-    using OBeautifulCode.Validation.Recipes;
 
     using static System.FormattableString;
 
@@ -43,7 +43,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
         public LogglyTag(
             string tag)
         {
-            new { tag }.Must().NotBeNullNorWhiteSpace();
+            new { tag }.AsArg().Must().NotBeNullNorWhiteSpace();
 
             var tagLength = tag.Length;
             if (tagLength > 64)

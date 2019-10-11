@@ -18,8 +18,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
 
+    using OBeautifulCode.Assertion.Recipes;
     using OBeautifulCode.Logging.Syslog.Recipes;
-    using OBeautifulCode.Validation.Recipes;
 
     using static System.FormattableString;
 
@@ -56,12 +56,12 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
         public static void Initialize(
             LogglySettings logglySettings)
         {
-            new { logglySettings }.Must().NotBeNull();
-            new { logglySettings.CustomerToken }.Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.LogglyServerCertificatePemEncoded }.Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.LogglyPrivateEnterpriseNumber }.Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.SyslogServer }.Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.SecurePort }.Must().NotBeDefault();
+            new { logglySettings }.AsArg().Must().NotBeNull();
+            new { logglySettings.CustomerToken }.AsArg().Must().NotBeNullNorWhiteSpace();
+            new { logglySettings.LogglyServerCertificatePemEncoded }.AsArg().Must().NotBeNullNorWhiteSpace();
+            new { logglySettings.LogglyPrivateEnterpriseNumber }.AsArg().Must().NotBeNullNorWhiteSpace();
+            new { logglySettings.SyslogServer }.AsArg().Must().NotBeNullNorWhiteSpace();
+            new { logglySettings.SecurePort }.AsArg().Must().NotBeDefault();
 
             settings = logglySettings;
             logglyServerCertificate = new X509Certificate2(Encoding.UTF8.GetBytes(logglySettings.LogglyServerCertificatePemEncoded));
@@ -75,8 +75,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
         /// <param name="processIdentifier">The process name or process identifier, having no interoperable meaning, except that a change in the value indicates that there has been a discontinuity in the syslog reporting.  Can also be used to identify which messages belong to a group of messages.  Can be null if not available.</param>
         /// <param name="severity">The severity of the log message.</param>
         /// <param name="timestamp">The timestamp of the message, in UTC.</param>
-        /// <param name="messagePayload">The message payload.  Can be as simple as a string message (e.g. "something happend") or an object serialized to json.</param>
-        /// <param name="messageType">The type of message.  Can be null if unkonwn or not applicable.</param>
+        /// <param name="messagePayload">The message payload.  Can be as simple as a string message (e.g. "something happened") or an object serialized to json.</param>
+        /// <param name="messageType">The type of message.  Can be null if unknown or not applicable.</param>
         /// <param name="logglyTags">Optional Loggly-compliant tags to apply to the log message.  Default is null (no tags).</param>
         public static void SendLogMessageToLoggly(
             string fullyQualifiedDomainName,
