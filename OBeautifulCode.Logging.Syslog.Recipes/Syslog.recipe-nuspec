@@ -6,6 +6,7 @@
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Syslog.Recipes/nuget-icon.png</iconUrl>
   </metadata>
   <files>
+    <file src=".analyzers\SuppressBecause.cs" target="content\net462\.recipes\OBeautifulCode.Logging\SuppressBecause.cs" />
     <file src="Facility.cs" target="content\net462\.recipes\OBeautifulCode.Logging\Facility.cs" />
     <file src="Severity.cs" target="content\net462\.recipes\OBeautifulCode.Logging\Severity.cs" />
     <file src="SyslogMessageBuilder.cs" target="content\net462\.recipes\OBeautifulCode.Logging\SyslogMessageBuilder.cs" />

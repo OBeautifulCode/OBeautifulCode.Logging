@@ -11,13 +11,13 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Net;
+    using System.Net.NetworkInformation;
     using System.Text;
 
     using FakeItEasy;
 
     using FluentAssertions;
-
-    using Naos.Diagnostics.Recipes;
 
     using OBeautifulCode.AutoFakeItEasy;
 
@@ -25,11 +25,11 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
     public static class SyslogMessageBuilderTest
     {
-        private static readonly string FullyQualifiedDomainName = MachineName.GetFullyQualifiedDomainName();
+        private static readonly string FullyQualifiedDomainName = GetFullyQualifiedDomainName();
 
-        private static readonly string ApplicationName = ProcessHelpers.GetRunningProcess().GetName();
+        private static readonly string ApplicationName = Process.GetCurrentProcess().ProcessName;
 
-        private static readonly string ProcessId = ProcessHelpers.GetRunningProcess().Id.ToString();
+        private static readonly string ProcessId = Process.GetCurrentProcess().Id.ToString();
 
         [Fact]
         public static void BuildRfc5424Message___Should_throw_ArgumentException___When_parameter_timestamp_DateTimeKind_is_not_Utc()
@@ -207,7 +207,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " -";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -230,7 +230,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             messageId += (char)127;
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " -";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -247,7 +247,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
             // Arrange
             const string MessageId = "29292817";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " " + MessageId;
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -264,7 +264,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
             // Arrange
             string messageId = "2!z )!@#$%" + ((char)1) + ((char)2) + "^&*" + ((char)31) + "()3a" + ((char)127);
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " " + "2!z)!@#$%^&*()3a";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -281,7 +281,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
             // Arrange
             const string MessageId = "asdfg  hkl;qwertyuiop{]<.sdcvn.zxmncvb";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " " + "asdfghkl;qwertyuiop{]<.sdcvn.zxm";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -297,7 +297,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
         {
             // Arrange
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " -" + " -";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -314,7 +314,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
             // Arrange
             const string StructuredDataId = "= ]\"";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " -" + " -";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -331,7 +331,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
             // Arrange
             const string StructuredDataId = "This\"Is My@Ident ]ifier!{;=";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             expectedHeader = expectedHeader + " -" + " [ThisIsMy@Identifier!{;]";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -354,7 +354,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
             // Arrange
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}]", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}]", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -381,7 +381,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}]", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}]", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -404,7 +404,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             expectedHeader = expectedHeader + " myName=";
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
@@ -428,7 +428,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             expectedHeader = expectedHeader + " myNameasdfghjkl;'qwertyuiop$#()*=";
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
@@ -452,7 +452,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             expectedHeader = expectedHeader + " myName1=\"\"";
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
@@ -476,7 +476,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             expectedHeader = expectedHeader + " myName1=\"val\\\"id\\]val\\\\id\"]";
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
@@ -502,7 +502,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3}", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             expectedHeader = expectedHeader + " myName1=\"myValue1\" myName2=\"myValue2\" myName3=\"myValue3\"]";
 
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
@@ -533,7 +533,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} -", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} -", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id);
             string expectedHeader1 = expectedHeader + " [ThisIsMy@Identifier myName1=\"myValue1\" myName2=\"myValue2\" myName3=\"myValue3\"]\n";
             string expectedHeader2 = expectedHeader + " -\n";
 
@@ -562,7 +562,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3} myName1=\"myValue1\"]", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3} myName1=\"myValue1\"]", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             expectedHeader = expectedHeader + " " + Message + "\n";
             byte[] expected = Encoding.ASCII.GetBytes(expectedHeader);
 
@@ -587,7 +587,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             const string StructuredDataId = "ThisIsMy@Identifier";
             var timeStamp = new DateTime(2014, 5, 20, 7, 42, 6, 83, DateTimeKind.Utc);
-            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3} myName1=\"myValue1\"] ", MachineName.GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
+            string expectedHeader = string.Format("<188>1 2014-05-20T07:42:06.083Z {0} {1} {2} - [{3} myName1=\"myValue1\"] ", GetFullyQualifiedDomainName(), Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, StructuredDataId);
             byte[] expected =
                 Encoding.ASCII.GetBytes(expectedHeader)
                     .Concat(Encoding.UTF8.GetPreamble())
@@ -599,6 +599,30 @@ namespace OBeautifulCode.Logging.Syslog.Recipes.Test
 
             // Assert
             Assert.True(message.SequenceEqual(expected));
+        }
+
+        // note: this was copy/pasted from Naos.Diagnostics.Recipes
+        // we are trying to maintain one-way relationship between OBC and NAOS
+        // where NAOS depends on OBC but not vice-versa
+        private static string GetFullyQualifiedDomainName()
+        {
+            var result = Dns.GetHostName();
+
+            var domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
+
+            if (!string.IsNullOrEmpty(domainName))
+            {
+                domainName = "." + domainName;
+
+                // if hostname does not already include domain name
+                if (!result.EndsWith(domainName, StringComparison.Ordinal))
+                {
+                    // add the domain name part
+                    result += domainName;
+                }
+            }
+
+            return result;
         }
     }
 }
