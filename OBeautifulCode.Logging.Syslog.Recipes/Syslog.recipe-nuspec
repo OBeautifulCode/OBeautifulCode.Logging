@@ -1,4 +1,4 @@
-﻿<package>
+<package>
   <metadata>
     <id>OBeautifulCode.Logging.Recipes.Syslog</id>
     <description>Builds syslog messages.</description>
