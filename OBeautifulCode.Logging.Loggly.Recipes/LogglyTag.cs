@@ -12,7 +12,6 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     using System;
     using System.Text.RegularExpressions;
 
-    using OBeautifulCode.Assertion.Recipes;
     using OBeautifulCode.String.Recipes;
 
     using static System.FormattableString;
@@ -43,9 +42,18 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
         public LogglyTag(
             string tag)
         {
-            new { tag }.AsArg().Must().NotBeNullNorWhiteSpace();
+            if (tag == null)
+            {
+                throw new ArgumentNullException(nameof(tag));
+            }
+
+            if (string.IsNullOrWhiteSpace(tag))
+            {
+                throw new ArgumentException(Invariant($"'{nameof(tag)}' is white space"));
+            }
 
             var tagLength = tag.Length;
+
             if (tagLength > 64)
             {
                 throw new ArgumentException(Invariant($"The specified tag is too long.  It has {tagLength} characters.  {TagRequirements}  Specified tag: {tag}"));

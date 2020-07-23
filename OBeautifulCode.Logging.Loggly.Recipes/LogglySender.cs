@@ -18,7 +18,6 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
 
-    using OBeautifulCode.Assertion.Recipes;
     using OBeautifulCode.Logging.Syslog.Recipes;
 
     using static System.FormattableString;
@@ -56,12 +55,55 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
         public static void Initialize(
             LogglySettings logglySettings)
         {
-            new { logglySettings }.AsArg().Must().NotBeNull();
-            new { logglySettings.CustomerToken }.AsArg().Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.LogglyServerCertificatePemEncoded }.AsArg().Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.LogglyPrivateEnterpriseNumber }.AsArg().Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.SyslogServer }.AsArg().Must().NotBeNullNorWhiteSpace();
-            new { logglySettings.SecurePort }.AsArg().Must().NotBeDefault();
+            if (logglySettings == null)
+            {
+                throw new ArgumentNullException(nameof(logglySettings));
+            }
+
+            if (logglySettings.CustomerToken == null)
+            {
+                throw new ArgumentNullException(nameof(logglySettings.CustomerToken));
+            }
+
+            if (string.IsNullOrWhiteSpace(logglySettings.CustomerToken))
+            {
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings.CustomerToken)}' is white space"));
+            }
+
+            if (logglySettings.LogglyServerCertificatePemEncoded == null)
+            {
+                throw new ArgumentNullException(nameof(logglySettings.LogglyServerCertificatePemEncoded));
+            }
+
+            if (string.IsNullOrWhiteSpace(logglySettings.LogglyServerCertificatePemEncoded))
+            {
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings.LogglyServerCertificatePemEncoded)}' is white space"));
+            }
+
+            if (logglySettings.LogglyPrivateEnterpriseNumber == null)
+            {
+                throw new ArgumentNullException(nameof(logglySettings.LogglyPrivateEnterpriseNumber));
+            }
+
+            if (string.IsNullOrWhiteSpace(logglySettings.LogglyPrivateEnterpriseNumber))
+            {
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings.LogglyPrivateEnterpriseNumber)}' is white space"));
+            }
+
+            if (logglySettings.SyslogServer == null)
+            {
+                throw new ArgumentNullException(nameof(logglySettings.SyslogServer));
+            }
+
+            if (string.IsNullOrWhiteSpace(logglySettings.SyslogServer))
+            {
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings.SyslogServer)}' is white space"));
+            }
+
+            if (logglySettings.SecurePort == default)
+            {
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings.SecurePort)}' has not be set"));
+            }
 
             settings = logglySettings;
             logglyServerCertificate = new X509Certificate2(Encoding.UTF8.GetBytes(logglySettings.LogglyServerCertificatePemEncoded));
