@@ -135,8 +135,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
 
             // Assert
             ex.Should().BeOfType<ArgumentException>();
-            ex.Message.Should().Contain("SecurePort");
-            ex.Message.Should().Contain("default");
+            ex.Message.Should().Be("'SecurePort' has not be set");
         }
 
         [Fact]
