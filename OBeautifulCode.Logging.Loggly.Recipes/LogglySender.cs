@@ -60,44 +60,24 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
                 throw new ArgumentNullException(nameof(logglySettings));
             }
 
-            if (logglySettings.CustomerToken == null)
-            {
-                throw new ArgumentNullException(nameof(logglySettings.CustomerToken));
-            }
-
             if (string.IsNullOrWhiteSpace(logglySettings.CustomerToken))
             {
-                throw new ArgumentException(Invariant($"'{nameof(logglySettings.CustomerToken)}' is white space"));
-            }
-
-            if (logglySettings.LogglyServerCertificatePemEncoded == null)
-            {
-                throw new ArgumentNullException(nameof(logglySettings.LogglyServerCertificatePemEncoded));
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings)}.{nameof(LogglySettings.CustomerToken)}' is null or white space"));
             }
 
             if (string.IsNullOrWhiteSpace(logglySettings.LogglyServerCertificatePemEncoded))
             {
-                throw new ArgumentException(Invariant($"'{nameof(logglySettings.LogglyServerCertificatePemEncoded)}' is white space"));
-            }
-
-            if (logglySettings.LogglyPrivateEnterpriseNumber == null)
-            {
-                throw new ArgumentNullException(nameof(logglySettings.LogglyPrivateEnterpriseNumber));
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings)}.{nameof(LogglySettings.LogglyServerCertificatePemEncoded)}' is null or white space"));
             }
 
             if (string.IsNullOrWhiteSpace(logglySettings.LogglyPrivateEnterpriseNumber))
             {
-                throw new ArgumentException(Invariant($"'{nameof(logglySettings.LogglyPrivateEnterpriseNumber)}' is white space"));
-            }
-
-            if (logglySettings.SyslogServer == null)
-            {
-                throw new ArgumentNullException(nameof(logglySettings.SyslogServer));
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings)}.{nameof(LogglySettings.LogglyPrivateEnterpriseNumber)}' is null or white space"));
             }
 
             if (string.IsNullOrWhiteSpace(logglySettings.SyslogServer))
             {
-                throw new ArgumentException(Invariant($"'{nameof(logglySettings.SyslogServer)}' is white space"));
+                throw new ArgumentException(Invariant($"'{nameof(logglySettings)}.{nameof(LogglySettings.SyslogServer)}' is null or white space"));
             }
 
             if (logglySettings.SecurePort == default)

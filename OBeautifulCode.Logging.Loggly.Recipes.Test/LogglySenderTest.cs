@@ -30,7 +30,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
         }
 
         [Fact]
-        public void Initialize___Should_throw_ArgumentNullException___When_parameter_logglySettings_CustomerToken_is_null()
+        public void Initialize___Should_throw_ArgumentException___When_parameter_logglySettings_CustomerToken_is_null()
         {
             // Arrange
             var settings = BuildLogglySettings();
@@ -40,8 +40,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
             var ex = Record.Exception(() => LogglySender.Initialize(settings));
 
             // Assert
-            ex.Should().BeOfType<ArgumentNullException>();
-            ex.Message.Should().Contain("CustomerToken");
+            ex.Should().BeOfType<ArgumentException>();
+            ex.Message.Should().Contain("'logglySettings.CustomerToken' is null or white space");
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
         }
 
         [Fact]
-        public void Initialize___Should_throw_ArgumentNullException___When_parameter_logglySettings_LogglyServerCertificatePemEncoded_is_null()
+        public void Initialize___Should_throw_ArgumentException___When_parameter_logglySettings_LogglyServerCertificatePemEncoded_is_null()
         {
             // Arrange
             var settings = BuildLogglySettings();
@@ -71,7 +71,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
             var ex = Record.Exception(() => LogglySender.Initialize(settings));
 
             // Assert
-            ex.Should().BeOfType<ArgumentNullException>();
+            ex.Should().BeOfType<ArgumentException>();
             ex.Message.Should().Contain("LogglyServerCertificatePemEncoded");
         }
 
@@ -92,7 +92,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
         }
 
         [Fact]
-        public void Initialize___Should_throw_ArgumentNullException___When_parameter_logglySettings_LogglyPrivateEnterpriseNumber_is_null()
+        public void Initialize___Should_throw_ArgumentException___When_parameter_logglySettings_LogglyPrivateEnterpriseNumber_is_null()
         {
             // Arrange
             var settings = BuildLogglySettings();
@@ -102,8 +102,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes.Test
             var ex = Record.Exception(() => LogglySender.Initialize(settings));
 
             // Assert
-            ex.Should().BeOfType<ArgumentNullException>();
-            ex.Message.Should().Contain("LogglyPrivateEnterpriseNumber");
+            ex.Should().BeOfType<ArgumentException>();
+            ex.Message.Should().Contain("'logglySettings.LogglyPrivateEnterpriseNumber' is null or white space");
         }
 
         [Fact]
