@@ -5,7 +5,6 @@
     <tags>Loggly</tags>
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Loggly.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
-      <dependency id="OBeautifulCode.Assertion.Recipes.Must" version="1.0.15" />
       <dependency id="OBeautifulCode.Logging.Recipes.Syslog" version="$version$" />
       <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.44" />
     </dependencies>
