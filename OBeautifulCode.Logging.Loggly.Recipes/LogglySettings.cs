@@ -14,7 +14,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     /// <summary>
     /// Loggly settings.
     /// </summary>
-#if !OBeautifulCodeLoggingRecipesProject
+#if !OBeautifulCodeLoggingSolution
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
     internal

@@ -9,12 +9,12 @@
 
 namespace OBeautifulCode.Logging.Loggly.Recipes
 {
-    using System;
-    using System.Text.RegularExpressions;
+    using global::System;
+    using global::System.Text.RegularExpressions;
 
     using OBeautifulCode.String.Recipes;
 
-    using static System.FormattableString;
+    using static global::System.FormattableString;
 
     /// <summary>
     /// Represents a tag on log message that is compliant with Loggly's tagging requirements.
@@ -22,14 +22,14 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     /// <remarks>
     /// Here is Loggly's specification for tags: <a href="https://www.loggly.com/docs/tags/" />.
     /// </remarks>
-#if !OBeautifulCodeLoggingRecipesProject
+#if !OBeautifulCodeLoggingSolution
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
     internal
 #else
     public
 #endif
-        class LogglyTag
+    class LogglyTag
     {
         private const string TagRequirements = "The valid character set for a tag value includes all alpha-numeric characters, dash, period, and underscore. There is an exception to this, where the first character of a tag may only be alpha-numeric. The maximum length of an individual tag is 64 characters.";
 

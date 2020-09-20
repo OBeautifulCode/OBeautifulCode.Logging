@@ -9,18 +9,18 @@
 
 namespace OBeautifulCode.Logging.Loggly.Recipes
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Security;
-    using System.Net.Sockets;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Text;
+    using global::System;
+    using global::System.Collections.Generic;
+    using global::System.IO;
+    using global::System.Linq;
+    using global::System.Net.Security;
+    using global::System.Net.Sockets;
+    using global::System.Security.Cryptography.X509Certificates;
+    using global::System.Text;
 
     using OBeautifulCode.Logging.Syslog.Recipes;
 
-    using static System.FormattableString;
+    using static global::System.FormattableString;
 
     /// <summary>
     /// This class enables logging to Loggly using syslog formatted messages.
@@ -31,7 +31,7 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     /// Adapted from <a href="https://github.com/graffen/NLog.Targets.Syslog"/>.
     /// Adapted from <a href="https://github.com/Curit/le_dotnet"/>.
     /// </remarks>
-#if !OBeautifulCodeLoggingRecipesProject
+#if !OBeautifulCodeLoggingSolution
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
     internal

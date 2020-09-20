@@ -9,13 +9,13 @@
 
 namespace OBeautifulCode.Logging.Syslog.Recipes
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
+    using global::System;
+    using global::System.Collections.Generic;
+    using global::System.Globalization;
+    using global::System.Linq;
+    using global::System.Text;
 
-    using static System.FormattableString;
+    using static global::System.FormattableString;
 
     /// <summary>
     /// This class provides a method to build a syslog message.
@@ -25,7 +25,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes
     /// Adapted from <a href="https://github.com/graffen/NLog.Targets.Syslog"/>.
     /// Adapted from <a href="https://github.com/Curit/le_dotnet"/>.
     /// </remarks>
-#if !OBeautifulCodeLoggingRecipesProject
+#if !OBeautifulCodeLoggingSolution
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Syslog.Recipes", "See package version number")]
     internal

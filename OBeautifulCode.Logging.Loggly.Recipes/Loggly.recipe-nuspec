@@ -6,11 +6,11 @@
     <iconUrl>https://raw.githubusercontent.com/OBeautifulCode/OBeautifulCode.Logging/master/OBeautifulCode.Logging.Loggly.Recipes/nuget-icon.png</iconUrl>
     <dependencies>
       <dependency id="OBeautifulCode.Logging.Recipes.Syslog" version="$version$" />
-      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.45" />
+      <dependency id="OBeautifulCode.String.Recipes.StringExtensions" version="1.0.47" />
+      <dependency id="OBeautifulCode.CodeAnalysis.Recipes.SuppressBecause" version="1.0.6" />
     </dependencies>
   </metadata>
   <files>
-    <file src=".analyzers\SuppressBecause.cs" target="content\net462\.recipes\OBeautifulCode.Logging\SuppressBecause.cs" />
     <file src="LogglySender.cs" target="content\net462\.recipes\OBeautifulCode.Logging\LogglySender.cs" />
     <file src="LogglySettings.cs" target="content\net462\.recipes\OBeautifulCode.Logging\LogglySettings.cs" />
     <file src="LogglyTag.cs" target="content\net462\.recipes\OBeautifulCode.Logging\LogglyTag.cs" />
