@@ -18,7 +18,7 @@ namespace OBeautifulCode.Logging.Syslog.Recipes
     /// Adapted from enumeration of same name in <a href="https://github.com/emertechie/SyslogNet"/>.
     /// </remarks>
 #if !OBeautifulCodeLoggingSolution
-    [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Syslog.Recipes", "See package version number")]
+    [global::System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Syslog.Recipes", "See package version number")]
     internal
 #else
     public

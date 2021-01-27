@@ -32,8 +32,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     /// Adapted from <a href="https://github.com/Curit/le_dotnet"/>.
     /// </remarks>
 #if !OBeautifulCodeLoggingSolution
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    [global::System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
     internal
 #else
     public

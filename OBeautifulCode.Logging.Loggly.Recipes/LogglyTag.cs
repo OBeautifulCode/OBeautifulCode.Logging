@@ -23,8 +23,8 @@ namespace OBeautifulCode.Logging.Loggly.Recipes
     /// Here is Loggly's specification for tags: <a href="https://www.loggly.com/docs/tags/" />.
     /// </remarks>
 #if !OBeautifulCodeLoggingSolution
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    [System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    [global::System.CodeDom.Compiler.GeneratedCode("OBeautifulCode.Logging.Loggly.Recipes", "See package version number")]
     internal
 #else
     public
